@@ -24,41 +24,20 @@ function AdminDashboard() {
   // =========================
   // Navigation Handlers
   // =========================
-  const handleDashboard = () => {
-    navigate("/admin");
-  };
-
-  const handleComplaints = () => {
-    navigate("/complaints");
-  };
-
-  const handleUsers = () => {
-    navigate("/users");
-  };
-
-  const handleReports = () => {
-    navigate("/reports");
-  };
-
-  const handleSettings = () => {
-    navigate("/settings");
-  };
-
-  const handleNotifications = () => {
-    navigate("/notifications");
-  };
-
-  const handleSupport = () => {
-    navigate("/support");
-  };
+  const handleDashboard = () => navigate("/admin");
+  const handleComplaints = () => navigate("/complaints");
+  const handleUsers = () => navigate("/users");
+  const handleReports = () => navigate("/reports");
+  const handleSettings = () => navigate("/settings");
+  const handleNotifications = () => navigate("/notifications");
+  const handleSupport = () => navigate("/support");
+  const handleLogout = () => navigate("/");
 
   const handleFilter = () => {
-    alert("Filter applied");
-  };
-
-  const handleLogout = () => {
-    navigate("/");
-  };
+  setStatusFilter(tempStatus);
+  setCategoryFilter(tempCategory);
+  setSearchTerm(tempSearch);
+};
 
   // =========================
   // Complaints Data
@@ -97,6 +76,17 @@ function AdminDashboard() {
   ]);
 
   // =========================
+  // Filter States
+  // =========================
+  const [statusFilter, setStatusFilter] = useState("All Status");
+const [categoryFilter, setCategoryFilter] = useState("All Categories");
+const [searchTerm, setSearchTerm] = useState("");
+
+const [tempStatus, setTempStatus] = useState("All Status");
+const [tempCategory, setTempCategory] = useState("All Categories");
+const [tempSearch, setTempSearch] = useState("");
+
+  // =========================
   // Update Complaint Status
   // =========================
   const handleUpdate = (id) => {
@@ -113,6 +103,25 @@ function AdminDashboard() {
 
     setComplaints(updated);
   };
+
+  // =========================
+  // Filter Logic
+  // =========================
+  const filteredComplaints = complaints.filter((item) => {
+    const statusMatch =
+      statusFilter === "All Status" || item.status === statusFilter;
+
+    const categoryMatch =
+      categoryFilter === "All Categories" ||
+      item.category === categoryFilter;
+
+    const searchMatch =
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return statusMatch && categoryMatch && searchMatch;
+  });
 
   // =========================
   // Dashboard Counts
@@ -150,18 +159,12 @@ function AdminDashboard() {
 
           {/* Menu */}
           <div className="menu">
-            <div
-              className="menu-item active"
-              onClick={handleDashboard}
-            >
+            <div className="menu-item active" onClick={handleDashboard}>
               <FaHome />
               Dashboard
             </div>
 
-            <div
-              className="menu-item"
-              onClick={handleComplaints}
-            >
+            <div className="menu-item" onClick={handleComplaints}>
               <FaClipboardList />
               All Complaints
             </div>
@@ -181,10 +184,7 @@ function AdminDashboard() {
               Settings
             </div>
 
-            <div
-              className="menu-item"
-              onClick={handleNotifications}
-            >
+            <div className="menu-item" onClick={handleNotifications}>
               <FaBell />
               Notifications
             </div>
@@ -201,9 +201,7 @@ function AdminDashboard() {
           <FaHeadset size={40} />
           <h3>Need Help?</h3>
           <p>Contact support for issues</p>
-          <button onClick={handleSupport}>
-            Contact Support
-          </button>
+          <button onClick={handleSupport}>Contact Support</button>
         </div>
       </div>
 
@@ -265,14 +263,20 @@ function AdminDashboard() {
 
         {/* Filters */}
         <div className="filters">
-          <select>
+          <select
+          value={tempStatus}
+          onChange={(e) => setTempStatus(e.target.value)}
+          >
             <option>All Status</option>
             <option>Pending</option>
             <option>In Progress</option>
             <option>Resolved</option>
           </select>
 
-          <select>
+          <select
+            value={tempCategory}
+            onChange={(e) => setTempCategory(e.target.value)}
+          >
             <option>All Categories</option>
             <option>Roads</option>
             <option>Sanitation</option>
@@ -293,12 +297,11 @@ function AdminDashboard() {
             type="text"
             placeholder="Search complaints..."
             className="search"
+            value={tempSearch}
+            onChange={(e) => setTempSearch(e.target.value)}
           />
 
-          <button
-            className="filter-btn"
-            onClick={handleFilter}
-          >
+          <button className="filter-btn" onClick={handleFilter}>
             <FaFilter />
             Filter
           </button>
@@ -321,79 +324,71 @@ function AdminDashboard() {
             </thead>
 
             <tbody>
-              {complaints.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
+              {filteredComplaints.length > 0 ? (
+                filteredComplaints.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
 
-                  <td>
-                    <div className="complaint-info">
-                      <img
-                        src={item.image}
-                        className="complaint-img"
-                        alt={item.title}
-                      />
-                      <div>
-                        <h4>{item.title}</h4>
+                    <td>
+                      <div className="complaint-info">
+                        <img
+                          src={item.image}
+                          className="complaint-img"
+                          alt={item.title}
+                        />
+                        <div>
+                          <h4>{item.title}</h4>
+                        </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  <td>{item.user}</td>
-                  <td>{item.category}</td>
-                  <td>{item.location}</td>
+                    <td>{item.user}</td>
+                    <td>{item.category}</td>
+                    <td>{item.location}</td>
 
-                  <td>
-                    <span
-                      className={
-                        item.status === "Pending"
-                          ? "status pending"
-                          : item.status === "In Progress"
-                          ? "status progress"
-                          : "status resolved"
-                      }
-                    >
-                      {item.status}
-                    </span>
-                  </td>
+                    <td>
+                      <span
+                        className={
+                          item.status === "Pending"
+                            ? "status pending"
+                            : item.status === "In Progress"
+                            ? "status progress"
+                            : "status resolved"
+                        }
+                      >
+                        {item.status}
+                      </span>
+                    </td>
 
-                  <td>{item.date}</td>
+                    <td>{item.date}</td>
 
-                  <td>
-                    <button
-                      className="update-btn"
-                      onClick={() =>
-                        handleUpdate(item.id)
-                      }
-                    >
-                      Update Status
-                    </button>
+                    <td>
+                      <button
+                        className="update-btn"
+                        onClick={() => handleUpdate(item.id)}
+                      >
+                        Update Status
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" style={{ textAlign: "center" }}>
+                    No complaints found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
 
           {/* Pagination */}
           <div className="pagination">
-            <button className="page-btn">
-              {"<"}
-            </button>
-
-            <button className="page-btn page-active">
-              1
-            </button>
-
-            <button className="page-btn">
-              2
-            </button>
-
-            <button className="page-btn">
-              3
-            </button>
-
-            <button className="page-btn">
-              {">"}
-            </button>
+            <button className="page-btn">{"<"}</button>
+            <button className="page-btn page-active">1</button>
+            <button className="page-btn">2</button>
+            <button className="page-btn">3</button>
+            <button className="page-btn">{">"}</button>
           </div>
         </div>
       </div>
