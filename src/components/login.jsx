@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginUser } from "../api";
+import { loginUser } from "../api/api";
 import { Link } from "react-router-dom"; // Import Link for navigation
 
 function Login() {

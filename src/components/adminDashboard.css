@@ -164,7 +164,7 @@ body{
   gap:15px;
   margin-bottom:20px;
 }
-
+  
 .filters select,
 .filters input{
   padding:12px;
@@ -224,14 +224,21 @@ td{
 
 .pending{
   background:orange;
+  border-radius: 50px;
+   padding:6px 16px
 }
 
 .progress{
   background:#2563eb;
+  border-radius: 50px;
+  display:inline-flex;
+   padding:5px 5px
 }
 
 .resolved{
   background:green;
+  border-radius: 50px;
+   padding:6px 14px
 }
 
 .update-btn{
@@ -300,4 +307,68 @@ td{
 
 .filter-btn:hover{
   background:#1d4ed8;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-icon {
+  font-size: 22px;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.admin-profile h4 {
+  margin: 0;
+}
+
+.admin-profile p {
+  margin: 0;
+  font-size: 12px;
+  color: gray;
+}
+.notification-wrapper{
+  position:relative;
+}
+
+.notification-count{
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  background:red;
+  color:white;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
 }
