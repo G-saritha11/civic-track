@@ -16,18 +16,23 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await registerUser(data);
-      alert("Registration successful ✅");
-      console.log(res);
+  e.preventDefault();
 
-      navigate("/"); // go to login
-    } catch (err) {
-      alert("Registration failed ❌");
-      console.error(err);
+  try {
+    const res = await registerUser(data);
+    console.log("Register Response:", res);
+
+    if (res.message === "User registered successfully" || res.success) {
+      alert("Registration successful ✅");
+      navigate("/");
+    } else {
+      alert(res.message || "Registration failed ❌");
     }
-  };
+  } catch (err) {
+    alert("Registration failed ❌");
+    console.error("Register Error:", err);
+  }
+};
 
   return (
     <div style={styles.container}>
