@@ -49,3 +49,31 @@ export const getUsers = async () => {
   const response = await fetch(`${BASE_URL}/users`);
   return await response.json();
 };
+
+// ================= MY COMPLAINTS =================
+export const getMyComplaints = async () => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/issues/my-complaints`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return await response.json();
+};
+// ================= CREATE COMPLAINT =================
+export const createComplaint = async (data) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/issues`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+};

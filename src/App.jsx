@@ -6,6 +6,8 @@ import AdminDashboard from "./components/adminDashboard";
 import AllComplaints from "./components/AllComplaints";
 import Users from "./components/Users";
 import Support from "./components/Support";
+import MyComplaints from "./components/MyComplaints";
+import CreateComplaint from "./components/CreateComplaint";
 
 function App() {
   return (
@@ -29,7 +31,17 @@ function App() {
           path="/support"
           element={<Support />}
         />
+      
+       <Route path="/my-complaints" element={<MyComplaints />} />
+
+       <Route
+       path="/create-complaint"
+       element={<CreateComplaint />}
+        />
+
+
       </Routes>
+
     </Router>
   );
 }

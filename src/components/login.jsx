@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 import { loginUser } from "../api/api";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
-  const [data, setData] = useState({ username: "", password: "" });
+const navigate = useNavigate();
+
+const [data, setData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-      try {
-      const res = await loginUser(data);
+   const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      alert(res.message || "Login Successful ✅");
-      console.log("Response:", res);
+  try {
+    const res = await loginUser(data);
+    console.log("Login Response:", res);
 
-    } catch (error) {
-      alert("Login Failed ❌");
-      console.log(error);
+    if (res.token) {
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      alert("Login Successful ✅");
+      window.location.href = "/admin";
+    } else {
+      alert(res.message || "Login Failed ❌");
     }
-  };
+  } catch (error) {
+    alert("Login Failed ❌");
+    console.log(error);
+  }
+};
 
   return (
     <div style={styles.container}>
@@ -29,12 +39,13 @@ function Login() {
         <h2 style={styles.title}>Login</h2>
 
         <form onSubmit={handleSubmit}>
-          <input
-            style={styles.input}
-            name="username"
-            placeholder="Username"
-            onChange={handleChange} required
-          />
+         <input
+           style={styles.input}
+           name="email"
+           placeholder="Email"
+           onChange={handleChange}
+           required
+            />
 
           <input
             style={styles.input}

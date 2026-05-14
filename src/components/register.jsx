@@ -15,14 +15,14 @@ function Register() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
     const res = await registerUser(data);
     console.log("Register Response:", res);
 
-    if (res.message === "User registered successfully" || res.success) {
+    if (res._id) {
       alert("Registration successful ✅");
       navigate("/");
     } else {
