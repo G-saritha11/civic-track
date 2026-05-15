@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { createComplaint } from "../api/api";
 
+import "./CreateComplaint.css";
+
 function CreateComplaint() {
 
   const [data, setData] = useState({
@@ -38,11 +40,10 @@ function CreateComplaint() {
 
 };
   return (
-    <div style={{ padding: "20px" }}>
-
+     <div className="create-container">
       <h1>Create Complaint</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form className="create-form" onSubmit={handleSubmit}>
 
         <input
           type="text"

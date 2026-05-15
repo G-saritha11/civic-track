@@ -125,6 +125,26 @@
   width: 480px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
+@media (max-width: 600px) {
+
+  .popup-card {
+    width: 90%;
+    padding: 18px;
+  }
+
+  .popup-image {
+    height: 180px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .feedback-btn,
+  .close-btn {
+    width: 100%;
+  }
+}
 
 .popup-image {
   width: 100%;
@@ -147,4 +167,11 @@
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+}
+.table-container {
+  overflow-x: auto;
+}
+
+.complaints-table {
+  min-width: 900px;
 }

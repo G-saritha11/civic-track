@@ -443,6 +443,27 @@ td{
   font-size: 15px;
 }
 
+@media (max-width: 600px) {
+
+  .popup-card {
+    width: 90%;
+    padding: 18px;
+  }
+
+  .popup-image {
+    height: 180px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .feedback-btn,
+  .close-btn {
+    width: 100%;
+  }
+}
+
 .popup-card textarea {
   width: 100%;
   height: 90px;
@@ -476,4 +497,49 @@ td{
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+}
+.table-box {
+  overflow-x: auto;
+}
+
+.table-box table {
+  min-width: 900px;
+}
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .menu-item {
+    min-width: max-content;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .main {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }

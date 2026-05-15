@@ -394,8 +394,7 @@ function AdminDashboard() {
   <div
    className="popup-overlay" >
 
-    <div
-    div className="popup-card" >
+    <div className="popup-card" >
 
       <h2>{selectedComplaint.title}</h2>
 
