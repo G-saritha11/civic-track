@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getComplaints, updateComplaintStatus } from "../api/api";
+import {
+  getComplaints,
+  updateComplaintStatus,
+  deleteComplaint,
+} from "../api/api";
 import { useNavigate } from "react-router-dom";
 import "./adminDashboard.css";
 
@@ -32,16 +36,26 @@ function AdminDashboard() {
   const handleNotifications = () => navigate("/notifications");
   const handleSupport = () => navigate("/support");
   const handleLogout = () => navigate("/");
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/");
+  }
+}, [navigate]);
 
   // COMPLAINTS DATA
 
   const [complaints, setComplaints] = useState([]);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
 
   // FILTER STATES
 
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [searchTerm, setSearchTerm] = useState("");
+  const [feedback, setFeedback] = useState("");
+
 
     // TEMP FILTER STATES
 
@@ -287,6 +301,7 @@ function AdminDashboard() {
                 <th>#</th>
                 <th>Complaint</th>
                 <th>User</th>
+                 <th>Username</th>
                 <th>Category</th>
                 <th>Location</th>
                 <th>Status</th>
@@ -301,6 +316,7 @@ function AdminDashboard() {
                   <td>{indexOfFirstComplaint + index + 1}</td>
                   <td>{item.title}</td>
                   <td>{item.user}</td>
+                   <td>{item.username}</td>
                   <td>{item.category}</td>
                   <td>{item.location}</td>
                   <td>
@@ -324,6 +340,28 @@ function AdminDashboard() {
                     >
                       update
                     </button>
+                
+                   <button
+                       className="delete-btn"
+                     onClick={async () => {
+                     await deleteComplaint(item._id);
+
+                     alert("Complaint Deleted ✅");
+
+                     setComplaints((prev) =>
+                    prev.filter((complaint) => complaint._id !== item._id)
+                     );
+                      }}
+>
+                      Delete
+                    </button>
+
+                   <button
+                     className="view-btn"
+                     onClick={() => setSelectedComplaint(item)}
+                   >
+                    ➜
+                   </button> 
                   </td>
                 </tr>
               ))}
@@ -351,6 +389,91 @@ function AdminDashboard() {
           </div>
         </div>
       </div>
+      {selectedComplaint && (
+
+  <div
+   className="popup-overlay" >
+
+    <div
+    div className="popup-card" >
+
+      <h2>{selectedComplaint.title}</h2>
+
+      <p>
+        <b>Description:</b>
+        {selectedComplaint.description}
+      </p>
+
+      <p>
+        <b>Location:</b>
+        {selectedComplaint.location}
+      </p>
+
+      {selectedComplaint.image && (
+  <img
+    src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
+    alt="complaint"
+    style={{
+      width: "100%",
+      height: "220px",
+      objectFit: "cover",
+      borderRadius: "10px",
+      marginTop: "10px",
+    }}
+  />
+)}
+
+      <p>
+        <b>Status:</b>
+        {selectedComplaint.status}
+      </p>
+
+      <p>
+        <b>Feedback:</b>
+        {selectedComplaint.feedback || "No Feedback"}
+      </p>
+
+      <textarea
+        placeholder="Enter feedback"
+        value={feedback}
+        onChange={(e) => setFeedback(e.target.value)}
+       />
+
+      <div className="popup-actions">
+
+  <button
+    className="feedback-btn"
+    onClick={async () => {
+
+      await updateComplaintStatus(
+        selectedComplaint._id,
+        selectedComplaint.status,
+        feedback
+      );
+
+      alert("Feedback Updated ✅");
+
+      window.location.reload();
+
+    }}
+  >
+    Save Feedback
+  </button>
+
+  <button
+    className="close-btn"
+    onClick={() => setSelectedComplaint(null)}
+  >
+    Close
+  </button>
+
+</div>
+
+    </div>
+
+  </div>
+
+)}
     </div>
   );
 }

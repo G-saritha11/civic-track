@@ -3,6 +3,8 @@ import "./AllComplaints.css";
 import { getComplaints, updateComplaintStatus } from "../api/api";
 
 function AllComplaints() {
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
+
   const [complaints, setComplaints] = useState([]);
 
   const [statusFilter, setStatusFilter] = useState("All Status");
@@ -130,16 +132,59 @@ function AllComplaints() {
                </td>
                 <td>{item.date}</td>
                 <td>
-                 <button className="update-btn" onClick={() => handleUpdate(item._id, item.status)}
->
-                 Update
+
+                <button
+                   className="update-btn"
+                   onClick={() => handleUpdate(item._id, item.status)}
+                 >
+                  Update
                 </button>
-                </td>
+
+                <button
+                className="view-btn"
+                onClick={() => setSelectedComplaint(item)}
+               >
+               ➜
+                </button>
+
+                 </td>
+              
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {selectedComplaint && (
+  <div className="popup-overlay">
+    <div className="popup-card">
+      <h2>{selectedComplaint.title}</h2>
+
+      <p><b>Description:</b> {selectedComplaint.description}</p>
+      <p><b>Category:</b> {selectedComplaint.category}</p>
+      <p><b>Location:</b> {selectedComplaint.location}</p>
+      <p><b>Status:</b> {selectedComplaint.status}</p>
+      <p><b>Username:</b> {selectedComplaint.username}</p>
+      <p><b>Feedback:</b> {selectedComplaint.feedback || "No Feedback"}</p>
+
+      {selectedComplaint.image && (
+        <img
+          src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
+          alt="complaint"
+          className="popup-image"
+        />
+      )}
+
+      <div className="popup-actions">
+        <button
+          className="close-btn"
+          onClick={() => setSelectedComplaint(null)}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

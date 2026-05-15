@@ -17,22 +17,26 @@ function CreateComplaint() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
 
-    const res = await createComplaint(data);
+  e.preventDefault();
+  console.log(localStorage.getItem("token"));
 
-    alert("Complaint Created ✅");
+  const formData = new FormData();
 
-    console.log(res);
+  formData.append("title", data.title);
+  formData.append("description", data.description);
+  formData.append("location", data.location);
+  formData.append("category", data.category);
+  formData.append("image", data.image);
 
-    setData({
-      title: "",
-      description: "",
-      location: "",
-    });
-  };
+  const res = await createComplaint(formData);
 
+  alert("Complaint Created ✅");
+
+  console.log(res);
+
+};
   return (
     <div style={{ padding: "20px" }}>
 
@@ -68,6 +72,16 @@ function CreateComplaint() {
         />
 
         <br /><br />
+
+        <input
+          type="file"
+          onChange={(e) =>
+          setData({
+          ...data,
+          image: e.target.files[0],
+         })
+         }
+        />
 
         <button type="submit">
           Submit Complaint
