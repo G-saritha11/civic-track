@@ -118,20 +118,23 @@ function AdminDashboard() {
 
     // FILTER LOGIC
 
-  const filteredComplaints = complaints.filter((item) => {
-    const statusMatch =
-      statusFilter === "All Status" || item.status === statusFilter;
+ const filteredComplaints = complaints.filter((item) => {
+  const statusMatch =
+    statusFilter === "All Status" || item.status === statusFilter;
 
-    const categoryMatch =
-      categoryFilter === "All Categories" || item.category === categoryFilter;
+  const categoryMatch =
+    categoryFilter === "All Categories" || item.category === categoryFilter;
 
-    const searchMatch =
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.location.toLowerCase().includes(searchTerm.toLowerCase());
+  const searchText = searchTerm.toLowerCase();
 
-    return statusMatch && categoryMatch && searchMatch;
-  });
+  const searchMatch =
+    (item.title || "").toLowerCase().includes(searchText) ||
+    (item.username || "").toLowerCase().includes(searchText) ||
+    (item.user || "").toLowerCase().includes(searchText) ||
+    (item.location || "").toLowerCase().includes(searchText);
+
+  return statusMatch && categoryMatch && searchMatch;
+});
 
   // PAGINATION LOGIC
 
