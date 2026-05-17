@@ -329,7 +329,7 @@ const [showPopup, setShowPopup] =
 <h2>CivicTrack</h2>
           <ul>
             <li>
-              <Link to="/adminDashboard">
+              <Link to="/admin">
                 <FaHome />  <span>
                 Dashboard</span>
               </Link>
@@ -354,7 +354,7 @@ const [showPopup, setShowPopup] =
             </li>
 
             <li>
-              <Link to="/login">
+              <Link to="/">
               <FaSignOutAlt />   <span>
                 Logout  </span>
               </Link>
