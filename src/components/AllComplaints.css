@@ -318,23 +318,22 @@ body {
   padding: 22px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .logo {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
 }
 
 .sidebar-menu a {
   color: white;
   text-decoration: none;
-  padding: 12px;
+  padding: 8px 12px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -350,6 +349,7 @@ body {
   padding: 18px;
   border-radius: 14px;
   text-align: center;
+  margin-top: auto;
 }
 
 .sidebar-help a {
