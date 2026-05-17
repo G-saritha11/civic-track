@@ -21,10 +21,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
 
         {/* Temporary Pages for Sidebar Navigation */}
-       <Route
-        path="/complaints"
-         element={<AllComplaints />}
-        />
+       <Route path="/allComplaints" element={<AllComplaints />} />
         <Route path="/users" element={<Users />} />
 
         <Route
