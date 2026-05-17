@@ -20,6 +20,11 @@ const [data, setData] = useState({ email: "", password: "" });
 
     if (res.token) {
       localStorage.setItem("token", res.token);
+      
+      localStorage.setItem("username", res.user.name);
+
+      localStorage 
+
       localStorage.setItem("user", JSON.stringify(res.user));
 
       alert("Login Successful ✅");
