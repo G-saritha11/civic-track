@@ -59,7 +59,7 @@ export const updateComplaintStatus = async (
 };
 // ================= GET USERS =================
 export const getUsers = async () => {
-  const response = await fetch(`${BASE_URL}/users`);
+  const response = await fetch(`${BASE_URL}/users/users`);
   return await response.json();
 };
 
